@@ -1,0 +1,11 @@
+Laboration 1
+
+Uppgift: Svar
+
+1: 10 punkter.
+2: 1 poäng.
+3: Javascript, Python, Java och lite C.
+4: Imperativa, objektorienterade, funktionella, händelsestyrda.
+Enligt wikipedia även: concurrent, generic, meta-programming, reflection.
+5: Sitt eget namn och mail :) 
+6: 2 dagar.
