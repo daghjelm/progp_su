@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Uppgift 1</title>
+</head>
+<body>
+  <h1 id="h1">Guess a number between 1 and 99:</h1>
+  <label for="numberInput">Enter a number:</label> <br>
+  <input type="numberInput" name="choose number" id="numberInput">
+  <button id="btn" onclick="guessNumber()">Guess!</button>
+  <script>
+    //https://kurser.math.su.se/mod/book/view.php?id=60854&chapterid=119
+      //Number to be guessed
+      let hiddenNr = 63;
+
+      let nr;
+
+      //Save h1 tag
+      let h1 = document.getElementById('h1');
+      let input = document.getElementById('numberInput');
+
+      function getStringForTag(nr) {
+
+        let guessStr = '<br/> Guess a number between 1 and 99:'
+
+        if(nr > 0 && nr < 100) {
+          if(nr === hiddenNr) {
+            return 'Correct!';
+          } else if(nr < hiddenNr) {
+            return 'Too low!' + guessStr;
+          } else {
+            return 'Too high!' + guessStr;
+          }
+        } else {
+          return 'You must guess a number between 1 and 99!' + guessStr;
+        }
+      }
+
+      function guessNumber() {
+        let nr = Number(input.value);
+        let str = getStringForTag(nr);
+        h1.innerHTML = str;
+      } 
+
+      //The way to do it with alerts:
+      // while(nr !== hiddenNr) {
+      //   nr = prompt("Guess a number between 1 and 99:");
+
+      //   if(nr < 100 && nr > 0) {
+      //     if(nr < hiddenNr)
+      //       alert("Too low!");
+      //     if(nr > hiddenNr)
+      //       alert("Too high!");
+      //   } else {
+      //     alert("You must guess a number between 1 and 99!");
+      //   }
+      // }
+
+      // alert("Correct!");
+
+  </script>
+</body>
+</html>
