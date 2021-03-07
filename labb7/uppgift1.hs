@@ -24,10 +24,7 @@ evalBoolExpr (IntEq x y) xs = evalIntExpr x xs == evalIntExpr y xs
 evalBoolExpr (BoolNot expr) xs = not (evalBoolExpr expr xs)
 
 findVar :: String -> [(String,Int)] -> Int
-findVar s [] = -1
-findVar s ((x, n):xs)
-  | s == x = n
-  | otherwise = findVar s xs
+findVar s arr = snd (head (filter (\x -> fst x == s) arr))
 
 addToEnv :: (String,Int) -> [(String,Int)] -> [(String,Int)]
 addToEnv (s, n) [] = [(s, n)]
@@ -35,22 +32,18 @@ addToEnv (s, n) ((s2, n2):xs)
   | s == s2 = (s, n) : xs
   | otherwise = (s2, n2) : addToEnv (s, n) xs
 
--- Helper to add environments to each other
-addEnvToEnv :: [(String, Int)] -> [(String, Int)] -> [(String, Int)]
-addEnvToEnv [] ys = ys
-addEnvToEnv (x:xs) ys = addEnvToEnv xs (addToEnv x ys)
-
 eval :: [Instr] -> [(String,Int)] -> [(String,Int)]
 eval [] env = env
 eval [Assign s expr] env = addToEnv (s, evalIntExpr expr env) env
 eval (Assign s expr:xs) env = eval xs (addToEnv (s, evalIntExpr expr env) env) 
 eval (If expr p1 p2:xs) env 
 -- add env from evaluated p1 to rest of env
-  | evalBoolExpr expr env = eval xs (addEnvToEnv (eval p1 []) env)
+  | evalBoolExpr expr env = eval xs (eval p1 env)
 -- or p2..
-  | otherwise = eval xs (addEnvToEnv (eval p2 []) env)
+  | otherwise = eval xs (eval p2 env) 
 eval (While expr p:xs) env 
-  | evalBoolExpr expr env = eval (While expr p:xs) (addEnvToEnv (eval p []) env)
+-- Keep evaluating p as long as expr is true
+  | evalBoolExpr expr env = eval (While expr p:xs) (eval p env)
   | otherwise = eval xs env
 
 run :: [Instr] -> [(String,Int)]
