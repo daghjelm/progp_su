@@ -1,3 +1,4 @@
+-- a comment
 data IntExpr = Const Int
              | Var String
              | Add IntExpr IntExpr
